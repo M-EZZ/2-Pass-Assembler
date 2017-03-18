@@ -24,7 +24,7 @@ public class CodeLine {
 
     public static CodeLine parse(String statement) {
         //String[] tokens = statement.trim().split("  ");
-        ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split("  ")));
+        ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split(" ")));
         tokens.removeAll(Arrays.asList("" ,null));
 
         String symbol, mnemonic;
