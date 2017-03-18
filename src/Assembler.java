@@ -60,6 +60,7 @@ public class Assembler {
                     startAddress = Integer.parseInt(line.operands[0]);
                     LOCCTR = startAddress;
                     line.address = LOCCTR;
+                    SYMTAB.put(line.symbol,LOCCTR);
                     break;
 
                 case "END":
@@ -77,7 +78,7 @@ public class Assembler {
                     String s = line.operands[0];  //Operand 1
                     switch (s.charAt(0)) {
                         case 'C':
-                            LOCCTR += (s.length() - 3); // C'EOF' -> EOF -> 3 bytes
+                            LOCCTR += (s.length() - 3);     // C'EOF' -> EOF -> 3 bytes
                             break;
                         case 'X':
                             LOCCTR += (s.length() - 3) / 2; // X'05' -> 05 -> 2 half bytes

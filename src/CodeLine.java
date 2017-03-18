@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CodeLine {
 
     public String symbol;
@@ -20,21 +23,24 @@ public class CodeLine {
     }
 
     public static CodeLine parse(String statement) {
-        String[] tokens = statement.trim().split("  ");
+        //String[] tokens = statement.trim().split("  ");
+        ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split("  ")));
+        tokens.removeAll(Arrays.asList("" ,null));
 
         String symbol, mnemonic;
         String[] Operands;
         boolean extended = false;
         int index = 0;
 
-        if (tokens.length == 3) {
-            symbol = tokens[index++];
+        if (tokens.size() == 3) {
+            symbol = tokens.get(index++); //tokens[index++];
+
             symbol = symbol.replace(" " ,"");
         } else {
             symbol = null;
         }
 
-        mnemonic = tokens[index++];
+        mnemonic = tokens.get(index++); //tokens[index++];
         mnemonic = mnemonic.replace(" ", "");
         try{
         if (mnemonic.charAt(0) == '+') {
@@ -45,15 +51,15 @@ public class CodeLine {
         }
 
         Operands = new String[2];
-        if (index < tokens.length) {
-            int pos = tokens[index].indexOf(',');
+        if (index < tokens.size()) {
+            int pos = tokens.get(index).indexOf(','); //tokens[index].indexOf(',');
             if (pos > 0) {
-                Operands[0] = tokens[index].substring(0, pos);
+                Operands[0] = tokens.get(index).substring(0,pos); //tokens[index].substring(0, pos);
                 Operands[0] = Operands[0].replace(" " ,"");
-                Operands[1] = tokens[index].substring(pos + 1);
+                Operands[1] = tokens.get(index).substring(pos+1); //tokens[index].substring(pos + 1);
                 Operands[1] = Operands[0].replace(" " ,"");
             } else {
-                Operands[0] = tokens[index];
+                Operands[0] = tokens.get(index); //tokens[index];
                 Operands[0] = Operands[0].replace(" " ,"");
                 Operands[1] = null;
             }
