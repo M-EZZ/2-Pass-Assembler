@@ -51,7 +51,7 @@ public class Assembler {
                 if (SYMTAB.containsKey(line.symbol)) {
                     System.out.println("Duplicate Symbol ERROR");
                 } else {
-                    SYMTAB.put(line.symbol, LOCCTR);
+
                 }
             }
 
@@ -60,7 +60,7 @@ public class Assembler {
                     startAddress = Integer.parseInt(line.operands[0]);
                     LOCCTR = startAddress;
                     line.address = LOCCTR;
-                    SYMTAB.put(line.symbol,LOCCTR);
+                    //SYMTAB.put(line.symbol,LOCCTR);
                     break;
 
                 case "END":
@@ -93,11 +93,11 @@ public class Assembler {
                     break;
 
                 default:
-                    if(OPTAB.contains(line.mnemonic)){
+                    if(search(line.mnemonic)!= -1){
                         if(first_executable < 0){
                             first_executable = LOCCTR;
                         }
-                        switch (OPTAB.get(OPTAB.indexOf(line.mnemonic)).format){  //switch( format of the mnemonic )
+                        switch (search(line.mnemonic)){  //switch( format of the mnemonic )
                             case 1:
                                 LOCCTR += 1;
                                 break;
@@ -113,7 +113,9 @@ public class Assembler {
                         System.out.println("INVALID OPERATION : " +line.toString());
                     }
             }
-            // System.out.println(line);            Uncomment to show the address and Source CodeLine
+            // System.out.println(line);
+            //          Uncomment to show the address and Source CodeLine
+            SYMTAB.put(line.symbol, LOCCTR);
             intermediate.write(line.toString()+"\n");
         }
         progLength = LOCCTR - startAddress ; //TODO needs checking
@@ -125,6 +127,24 @@ public class Assembler {
 
     public static boolean isComment (String str) {
         return str.startsWith(".");
+    }
+
+    public static int search (String mnemonic)
+    {
+        int found=0;
+        int i;
+        for ( i=0 ; i< OPTAB.size() ; i++)
+        {
+            if(OPTAB.get(i).mnemonic.equals(mnemonic)) {
+
+                found = 1;
+                break;
+            }
+        }
+        if(found == 1)
+            return OPTAB.get(i).format;
+        else
+            return -1;
     }
 
 }
