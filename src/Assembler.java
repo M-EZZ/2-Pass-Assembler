@@ -5,7 +5,7 @@ import java.util.*;
 public class Assembler {
 
     static List<Instruction> OPTAB = new ArrayList<Instruction>();
-    static List <Literals> LITT=new ArrayList<Literals>();
+    static List <Literals> LITTAB=new ArrayList<Literals>();
     static Map<String , Integer > SYMTAB = new HashMap<String , Integer>();
     static List <CodeLine> Assembly= new ArrayList<CodeLine>();
     static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
@@ -42,12 +42,22 @@ public class Assembler {
         BufferedReader asm = new BufferedReader(new FileReader("code.txt"));
         // writing to the intermediate text file
         BufferedWriter intermediate = new BufferedWriter(new FileWriter("intermediate.txt"));
+        BufferedWriter symbol_table = new BufferedWriter(new FileWriter( "symbol_table.txt"));
+        symbol_table.write("Symbol" +"\t"+"Address"+"\t"+"\n");
+
 
         while((str = asm.readLine()) != null){
             if (isComment(str)) { continue; }
             CodeLine line = CodeLine.parse(str);
             line.address = LOCCTR;
 
+            if(line.symbol != null) {
+                if (SYMTAB.containsKey(line.symbol)) {
+                    System.out.println("Duplicate Symbol ERROR");
+                } else {
+                    SYMTAB.put(line.symbol, LOCCTR);
+                }
+            }
 
 
             switch (line.mnemonic){
@@ -77,19 +87,20 @@ public class Assembler {
                             LOCCTR += (length);
                             // C'EOF' -> EOF -> 3 bytes
                             Literals literal=new Literals(s,length,s.substring(1,s.length()),LOCCTR,0);
-                            LITT.add(literal);
+                            LITTAB.add(literal);
                             break;
                         case 'X':
                             length = (s.length()-3)/2;
                             LOCCTR += (s.length() - 3) / 2; // X'05' -> 05 -> 2 half bytes
                              literal=new Literals(s,length,s.substring(1,s.length()),LOCCTR,0);
-                            LITT.add(literal);
+                            LITTAB.add(literal);
                             break;
                     }
                     break;
 
                 case "WORD":
                     LOCCTR += 3 ;
+                    break;
 
                 case "BASE":
                     break;
@@ -118,26 +129,17 @@ public class Assembler {
                         System.out.println("INVALID OPERATION : " +line.toString());
                     }
             }
-            // System.out.println(line);
-            //          Uncomment to show the address and Source CodeLine
-            if(line.symbol != null) {
-                if (SYMTAB.containsKey(line.symbol)) {
-                    System.out.println("Duplicate Symbol ERROR");
-                } else {
-                    SYMTAB.put(line.symbol, LOCCTR);
-                }
-            }
+            // System.out.println(line);          //Uncomment to show the address and Source CodeLine
 
             intermediate.write(line.toString()+"\n");
-
+            if(line.symbol != null){symbol_table.write(line.symbol+" \t"+line.address+"\n");}
         }
 
 
         progLength = LOCCTR - startAddress ; //TODO needs checking
         intermediate.close();
         asm.close();
-
-
+        symbol_table.close();
     }
 
 
