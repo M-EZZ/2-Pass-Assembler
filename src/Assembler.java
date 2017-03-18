@@ -5,6 +5,7 @@ import java.util.*;
 public class Assembler {
 
     static List<Instruction> OPTAB = new ArrayList<Instruction>();
+    static List <Literals> LITT=new ArrayList<Literals>();
     static Map<String , Integer > SYMTAB = new HashMap<String , Integer>();
     static List <CodeLine> Assembly= new ArrayList<CodeLine>();
     static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
@@ -47,13 +48,7 @@ public class Assembler {
             CodeLine line = CodeLine.parse(str);
             line.address = LOCCTR;
 
-            if(line.symbol != null) {
-                if (SYMTAB.containsKey(line.symbol)) {
-                    System.out.println("Duplicate Symbol ERROR");
-                } else {
 
-                }
-            }
 
             switch (line.mnemonic){
                 case "START":
@@ -78,10 +73,17 @@ public class Assembler {
                     String s = line.operands[0];  //Operand 1
                     switch (s.charAt(0)) {
                         case 'C':
-                            LOCCTR += (s.length() - 3);     // C'EOF' -> EOF -> 3 bytes
+                            int length= s.length()-3;
+                            LOCCTR += (length);
+                            // C'EOF' -> EOF -> 3 bytes
+                            Literals literal=new Literals(s,length,s.substring(1,s.length()),LOCCTR,0);
+                            LITT.add(literal);
                             break;
                         case 'X':
+                            length = (s.length()-3)/2;
                             LOCCTR += (s.length() - 3) / 2; // X'05' -> 05 -> 2 half bytes
+                             literal=new Literals(s,length,s.substring(1,s.length()),LOCCTR,0);
+                            LITT.add(literal);
                             break;
                     }
                     break;
@@ -118,12 +120,23 @@ public class Assembler {
             }
             // System.out.println(line);
             //          Uncomment to show the address and Source CodeLine
-            SYMTAB.put(line.symbol, LOCCTR);
+            if(line.symbol != null) {
+                if (SYMTAB.containsKey(line.symbol)) {
+                    System.out.println("Duplicate Symbol ERROR");
+                } else {
+                    SYMTAB.put(line.symbol, LOCCTR);
+                }
+            }
+
             intermediate.write(line.toString()+"\n");
+
         }
+
+
         progLength = LOCCTR - startAddress ; //TODO needs checking
         intermediate.close();
         asm.close();
+
 
     }
 
@@ -149,5 +162,7 @@ public class Assembler {
         else
             return -1;
     }
+
+
 
 }
