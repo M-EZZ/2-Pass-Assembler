@@ -34,7 +34,6 @@ public class CodeLine {
 
         if (tokens.size() == 3) {
             symbol = tokens.get(index++); //tokens[index++];
-
             symbol = symbol.replace(" " ,"");
         } else {
             symbol = null;

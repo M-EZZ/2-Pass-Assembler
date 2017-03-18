@@ -86,6 +86,9 @@ public class Assembler {
                     }
                     break;
 
+                case "WORD":
+                    LOCCTR += 3 ;
+
                 case "BASE":
                     break;
 
