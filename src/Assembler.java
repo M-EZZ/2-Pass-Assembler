@@ -10,8 +10,7 @@ public class Assembler {
     static List <CodeLine> Assembly= new ArrayList<CodeLine>();
     static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
     static  int progLength = 0 ;
-    static String [] assembler_directives = {"START" , "END" , "BASE" ,"NOBASE"}; //TODO {"BYTE" , "WORD" , "RESB" , "RESW" }
-    //TODO make a register table using a dictionary if neeaded
+    static String [] assembler_directives = {"START" , "END" , "BASE" ,"NOBASE" ,"BYTE" , "WORD" , "RESB" , "RESW" };
     public static void main(String []args) throws IOException {
         read_ISA();
         Pass1();
@@ -44,7 +43,8 @@ public class Assembler {
         BufferedWriter intermediate = new BufferedWriter(new FileWriter("intermediate.txt"));
         BufferedWriter symbol_table = new BufferedWriter(new FileWriter( "symbol_table.txt"));
         symbol_table.write("Symbol" +"\t"+"Address"+"\t"+"\n");
-
+        BufferedWriter literal_table = new BufferedWriter(new FileWriter("literal_table.txt"));
+        literal_table.write("Literal" + " \t"+ "Length" +" \t"+"Value" +" \t"+ "Address"+"\n" );
 
         while((str = asm.readLine()) != null){
             if (isComment(str)) { continue; }
@@ -79,21 +79,23 @@ public class Assembler {
                     LOCCTR += Integer.parseInt(line.operands[0]);
                     break;
 
-                case "BYTE":             //TODO literal table needs to be considered
+                case "BYTE":
                     String s = line.operands[0];  //Operand 1
                     switch (s.charAt(0)) {
                         case 'C':
                             int length= s.length()-3;
                             LOCCTR += (length);
                             // C'EOF' -> EOF -> 3 bytes
-                            Literals literal=new Literals(s,length,s.substring(1,s.length()),LOCCTR,0);
+                            Literals literal=new Literals(s,length,s.substring(2,s.length()-1),LOCCTR,0);
                             LITTAB.add(literal);
+                            literal_table.write( literal.name+ "\t\t"+ literal.length +"\t\t"+literal.value +"\t\t"+ literal.address+"\n" );
                             break;
                         case 'X':
                             length = (s.length()-3)/2;
                             LOCCTR += (s.length() - 3) / 2; // X'05' -> 05 -> 2 half bytes
-                             literal=new Literals(s,length,s.substring(1,s.length()),LOCCTR,0);
+                             literal=new Literals(s,length,s.substring(2,s.length()-1),LOCCTR,0);
                             LITTAB.add(literal);
+                            literal_table.write( literal.name+ "\t\t"+ literal.length +"\t\t"+literal.value +"\t\t"+ literal.address+"\n" );
                             break;
                     }
                     break;
@@ -140,6 +142,7 @@ public class Assembler {
         intermediate.close();
         asm.close();
         symbol_table.close();
+        literal_table.close();
     }
 
 
