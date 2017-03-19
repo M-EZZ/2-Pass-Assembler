@@ -132,6 +132,7 @@ public class Assembler {
                     }
                     else{
                         System.out.println("INVALID OPERATION : " +line.toString());
+                        break;
                     }
             }
             // System.out.println(line);          //Uncomment to show the address and Source CodeLine
@@ -146,6 +147,31 @@ public class Assembler {
         asm.close();
         symbol_table.close();
         literal_table.close();
+    }
+
+    public static void pass2 () throws IOException {
+
+        String str;
+        TextRecord textRecord = new TextRecord(startAddress);
+        BufferedReader asm = new BufferedReader(new FileReader("input_palindrome.txt"));
+        BufferedWriter objectProgram = new BufferedWriter(new FileWriter("ObjectCode.txt"));
+        while((str = asm.readLine()) != null) {
+            CodeLine line = CodeLine.parse(str);
+            if(line.symbol == "START"){
+                objectProgram.write(new HeaderRecord(line.symbol , startAddress , progLength ).toObjectProgram());
+            }
+            else if (line.symbol == "END"){break ;}
+            else {
+                String objectCode = assembleInstruction (line);      //TODO
+                if (textRecord.add(objectCode) == false){
+                    objectProgram.write(textRecord.toObjectProgram() + '\n');
+                    textRecord = new TextRecord(Integer.parseInt(line.address));
+                    textRecord.add(objectCode);
+                }
+            }
+        }
+        objectProgram.write(textRecord.toObjectProgram() + '\n');
+        objectProgram.write(new EndRecord(first_executable).toObjectProgram() + '\n');
     }
 
     public static boolean isComment (String str) {
