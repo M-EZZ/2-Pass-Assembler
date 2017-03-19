@@ -38,7 +38,7 @@ public class Assembler {
         String [] lmo ; //label mnemonic operands
 
         // reading assembly code from text file
-        BufferedReader asm = new BufferedReader(new FileReader("code.txt"));
+        BufferedReader asm = new BufferedReader(new FileReader("input_palindrome.txt"));
         // writing to the intermediate text file
         BufferedWriter intermediate = new BufferedWriter(new FileWriter("intermediate.txt"));
         BufferedWriter symbol_table = new BufferedWriter(new FileWriter( "symbol_table.txt"));
