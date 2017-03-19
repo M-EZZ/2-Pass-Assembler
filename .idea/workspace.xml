@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d195730-5346-4579-9a13-f55b153fba42" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/EndRecord.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/HeaderRecord.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Record.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/TextRecord.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/2-Pass-Assembler/CodeLine.class" afterPath="$PROJECT_DIR$/out/production/2-Pass-Assembler/CodeLine.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intermediate.txt" afterPath="$PROJECT_DIR$/intermediate.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/literal_table.txt" afterPath="$PROJECT_DIR$/literal_table.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Assembler.java" afterPath="$PROJECT_DIR$/src/Assembler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CodeLine.java" afterPath="$PROJECT_DIR$/src/CodeLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Instruction.java" afterPath="$PROJECT_DIR$/src/Instruction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symbol_table.txt" afterPath="$PROJECT_DIR$/symbol_table.txt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,8 +25,8 @@
       <file leaf-file-name="Instruction.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Instruction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="46" lean-forward="false" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
+            <state relative-caret-position="51">
+              <caret line="3" column="31" lean-forward="true" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -45,12 +35,10 @@
       <file leaf-file-name="Assembler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Assembler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+            <state relative-caret-position="374">
+              <caret line="31" column="91" lean-forward="false" selection-start-line="31" selection-start-column="91" selection-end-line="31" selection-end-column="91" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#main#0;class#Assembler#0" expanded="false" />
-                <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
                 <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
                 <element signature="method#search#0;class#Assembler#0" expanded="false" />
                 <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -72,8 +60,8 @@
       <file leaf-file-name="Record.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Record.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="17">
+              <caret line="1" column="36" lean-forward="true" selection-start-line="1" selection-start-column="36" selection-end-line="1" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -681,7 +669,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489951259129</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add Record interface and HTE implementations.">
+      <created>1489957105094</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1489957105094</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -697,7 +692,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2988764" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2988764" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -733,7 +728,8 @@
     <MESSAGE value="Fix two comma separated operands problem." />
     <MESSAGE value="FIX COMPR insrtuction in OPTAB.txt" />
     <MESSAGE value="FIX RSUB instruction" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIX RSUB instruction" />
+    <MESSAGE value="Add Record interface and HTE implementations." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Record interface and HTE implementations." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -778,8 +774,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -816,8 +810,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -854,8 +846,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -892,8 +882,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -930,8 +918,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -967,8 +953,6 @@
           <caret line="15" column="7" lean-forward="false" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -1004,8 +988,6 @@
           <caret line="15" column="7" lean-forward="false" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -1034,8 +1016,6 @@
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -1063,8 +1043,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />
@@ -1143,11 +1121,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Instruction.java">
+    <entry file="file://$PROJECT_DIR$/src/Record.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="46" lean-forward="false" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
+        <state relative-caret-position="17">
+          <caret line="1" column="36" lean-forward="true" selection-start-line="1" selection-start-column="36" selection-end-line="1" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EndRecord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#173#174#0" expanded="true" />
+            <element signature="e#226#227#0" expanded="true" />
+            <element signature="e#290#291#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1169,35 +1160,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/EndRecord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#119#120#0" expanded="true" />
-            <element signature="e#173#174#0" expanded="true" />
-            <element signature="e#226#227#0" expanded="true" />
-            <element signature="e#290#291#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Record.java">
+    <entry file="file://$PROJECT_DIR$/src/Instruction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <caret line="3" column="31" lean-forward="true" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Assembler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="4" lean-forward="false" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+        <state relative-caret-position="374">
+          <caret line="31" column="91" lean-forward="false" selection-start-line="31" selection-start-column="91" selection-end-line="31" selection-end-column="91" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#main#0;class#Assembler#0" expanded="false" />
-            <element signature="method#read_ISA#0;class#Assembler#0" expanded="false" />
             <element signature="method#Pass1#0;class#Assembler#0" expanded="false" />
             <element signature="method#search#0;class#Assembler#0" expanded="false" />
             <element signature="method#hex2decimal#0;class#Assembler#0" expanded="false" />

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Assembler {
 
-    
+
     static List<Instruction> OPTAB = new ArrayList<Instruction>();
     static List<Literals> LITTAB=new ArrayList<Literals>();
     static Map< String , String > SYMTAB = new HashMap<String , String>();
@@ -29,7 +29,7 @@ public class Assembler {
 
         while((str = optab_buffer.readLine()) != null){
             parts= str.split(" ");
-            Instruction instruction=new Instruction(parts[0],parts[1],Integer.parseInt(parts[2]));
+            Instruction instruction=new Instruction(parts[0],parts[1], hex2decimal(parts[2]));
             OPTAB.add(instruction);
             Arrays.fill(parts,null);
         }
