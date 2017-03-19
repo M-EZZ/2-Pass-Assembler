@@ -4,13 +4,16 @@ import java.util.*;
 
 public class Assembler {
 
+    
     static List<Instruction> OPTAB = new ArrayList<Instruction>();
-    static List <Literals> LITTAB=new ArrayList<Literals>();
-    static Map<String , String > SYMTAB = new HashMap<String , String>();
+    static List<Literals> LITTAB=new ArrayList<Literals>();
+    static Map< String , String > SYMTAB = new HashMap<String , String>();
     static List <CodeLine> Assembly= new ArrayList<CodeLine>();
     static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
     static  int progLength = 0 ;
     static String [] assembler_directives = {"START" , "END" , "BASE" ,"NOBASE" ,"BYTE" , "WORD" , "RESB" , "RESW" };
+
+
     public static void main(String []args) throws IOException {
         read_ISA();
         Pass1();
@@ -26,7 +29,7 @@ public class Assembler {
 
         while((str = optab_buffer.readLine()) != null){
             parts= str.split(" ");
-            Instruction instruction=new Instruction(parts[0],parts[1],parts[2]);
+            Instruction instruction=new Instruction(parts[0],parts[1],Integer.parseInt(parts[2]));
             OPTAB.add(instruction);
             Arrays.fill(parts,null);
         }
@@ -145,13 +148,11 @@ public class Assembler {
         literal_table.close();
     }
 
-
     public static boolean isComment (String str) {
         return str.startsWith(".");
     }
 
-    public static int search (String mnemonic)
-    {
+    public static int search (String mnemonic) {
         int found=0;
         int i;
         for ( i=0 ; i< OPTAB.size() ; i++)

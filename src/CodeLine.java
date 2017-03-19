@@ -52,9 +52,9 @@ public class CodeLine {
         }
         
       if(!tokens.contains("RSUB"))
-  {
-    mnemonic = tokens.get(index++); //tokens[index++];
-}
+        {
+             mnemonic = tokens.get(index++); //tokens[index++];
+        }
         mnemonic = mnemonic.replace(" ", "");
         try{
         if (mnemonic.charAt(0) == '+') {
