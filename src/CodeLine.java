@@ -56,7 +56,7 @@ public class CodeLine {
                 Operands[0] = tokens.get(index).substring(0,pos); //tokens[index].substring(0, pos);
                 Operands[0] = Operands[0].replace(" " ,"");
                 Operands[1] = tokens.get(index).substring(pos+1); //tokens[index].substring(pos + 1);
-                Operands[1] = Operands[0].replace(" " ,"");
+                Operands[1] = Operands[1].replace(" " ,"");
             } else {
                 Operands[0] = tokens.get(index); //tokens[index];
                 Operands[0] = Operands[0].replace(" " ,"");
