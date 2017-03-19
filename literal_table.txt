@@ -1,2 +1,4 @@
 Literal 	Length 	Value 	Address
-X'F1'		1		F1		67
+C'EOF'		3		EOF		102d
+X'F1'		1		F1		205e
+X'06'		1		06		207a

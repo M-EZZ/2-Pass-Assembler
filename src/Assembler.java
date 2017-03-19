@@ -6,7 +6,7 @@ public class Assembler {
 
     static List<Instruction> OPTAB = new ArrayList<Instruction>();
     static List <Literals> LITTAB=new ArrayList<Literals>();
-    static Map<String , Integer > SYMTAB = new HashMap<String , Integer>();
+    static Map<String , String > SYMTAB = new HashMap<String , String>();
     static List <CodeLine> Assembly= new ArrayList<CodeLine>();
     static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
     static  int progLength = 0 ;
@@ -38,7 +38,7 @@ public class Assembler {
         String [] lmo ; //label mnemonic operands
 
         // reading assembly code from text file
-        BufferedReader asm = new BufferedReader(new FileReader("input_palindrome.txt"));
+        BufferedReader asm = new BufferedReader(new FileReader("CODE.txt"));
         // writing to the intermediate text file
         BufferedWriter intermediate = new BufferedWriter(new FileWriter("intermediate.txt"));
         BufferedWriter symbol_table = new BufferedWriter(new FileWriter( "symbol_table.txt"));
@@ -49,22 +49,22 @@ public class Assembler {
         while((str = asm.readLine()) != null){
             if (isComment(str)) { continue; }
             CodeLine line = CodeLine.parse(str);
-            line.address = LOCCTR;
+            line.address = Integer.toHexString(LOCCTR);
 
             if(line.symbol != null) {
                 if (SYMTAB.containsKey(line.symbol)) {
                     System.out.println("Duplicate Symbol ERROR");
                 } else {
-                    SYMTAB.put(line.symbol, LOCCTR);
+                    SYMTAB.put(line.symbol, Integer.toHexString(LOCCTR));
                 }
             }
 
 
             switch (line.mnemonic){
                 case "START":
-                    startAddress = Integer.parseInt(line.operands[0]);
+                    startAddress = hex2decimal(line.operands[0]);
                     LOCCTR = startAddress;
-                    line.address = LOCCTR;
+                    line.address = Integer.toHexString(LOCCTR);
                     //SYMTAB.put(line.symbol,LOCCTR);
                     break;
 
@@ -86,14 +86,14 @@ public class Assembler {
                             int length= s.length()-3;
                             LOCCTR += (length);
                             // C'EOF' -> EOF -> 3 bytes
-                            Literals literal=new Literals(s,length,s.substring(2,s.length()-1),LOCCTR,0);
+                            Literals literal=new Literals(s,length,s.substring(2,s.length()-1),Integer.toHexString(LOCCTR),0);
                             LITTAB.add(literal);
                             literal_table.write( literal.name+ "\t\t"+ literal.length +"\t\t"+literal.value +"\t\t"+ literal.address+"\n" );
                             break;
                         case 'X':
                             length = (s.length()-3)/2;
                             LOCCTR += (s.length() - 3) / 2; // X'05' -> 05 -> 2 half bytes
-                             literal=new Literals(s,length,s.substring(2,s.length()-1),LOCCTR,0);
+                             literal=new Literals(s,length,s.substring(2,s.length()-1),Integer.toHexString(LOCCTR),0);
                             LITTAB.add(literal);
                             literal_table.write( literal.name+ "\t\t"+ literal.length +"\t\t"+literal.value +"\t\t"+ literal.address+"\n" );
                             break;
@@ -168,6 +168,15 @@ public class Assembler {
             return -1;
     }
 
-
-
+    public static int hex2decimal(String s) {
+        String digits = "0123456789ABCDEF";
+        s = s.toUpperCase();
+        int val = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            int d = digits.indexOf(c);
+            val = 16*val + d;
+        }
+        return val;
+    }
 }

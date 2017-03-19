@@ -7,7 +7,7 @@ public class CodeLine {
     public String mnemonic;
     public String[] operands;
     public boolean extended;
-    public int address ;
+    public String address ;
 
 
     private CodeLine(String symbol, String mnemonic, boolean extended, String[] operands) {
