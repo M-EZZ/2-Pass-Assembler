@@ -27,10 +27,22 @@ public class CodeLine {
         ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split(" ")));
         tokens.removeAll(Arrays.asList("" ,null));
 
-        String symbol, mnemonic;
+        String symbol, mnemonic = null;
         String[] Operands;
         boolean extended = false;
         int index = 0;
+
+       if(tokens.contains("RSUB"))
+       {
+           if(tokens.size()==1)
+               mnemonic=tokens.get(0);
+           else if(tokens.size()==2)
+           {
+               mnemonic=tokens.get(1);
+               symbol=tokens.get(0);
+           }
+
+       }
 
         if (tokens.size() == 3) {
             symbol = tokens.get(index++); //tokens[index++];
@@ -38,8 +50,11 @@ public class CodeLine {
         } else {
             symbol = null;
         }
-
-        mnemonic = tokens.get(index++); //tokens[index++];
+        
+      if(!tokens.contains("RSUB"))
+  {
+    mnemonic = tokens.get(index++); //tokens[index++];
+}
         mnemonic = mnemonic.replace(" ", "");
         try{
         if (mnemonic.charAt(0) == '+') {
