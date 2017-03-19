@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d195730-5346-4579-9a13-f55b153fba42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/2-Pass-Assembler/Assembler.class" afterPath="$PROJECT_DIR$/out/production/2-Pass-Assembler/Assembler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/2-Pass-Assembler/CodeLine.class" afterPath="$PROJECT_DIR$/out/production/2-Pass-Assembler/CodeLine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/2-Pass-Assembler/Literals.class" afterPath="$PROJECT_DIR$/out/production/2-Pass-Assembler/Literals.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intermediate.txt" afterPath="$PROJECT_DIR$/intermediate.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/literal_table.txt" afterPath="$PROJECT_DIR$/literal_table.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Assembler.java" afterPath="$PROJECT_DIR$/src/Assembler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CodeLine.java" afterPath="$PROJECT_DIR$/src/CodeLine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/symbol_table.txt" afterPath="$PROJECT_DIR$/symbol_table.txt" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -56,8 +50,8 @@
       <file leaf-file-name="CodeLine.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/CodeLine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="56" column="1" selection-start-line="56" selection-start-column="1" selection-end-line="56" selection-end-column="1" />
+            <state relative-caret-position="339">
+              <caret line="84" column="9" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
               <folding>
                 <element signature="e#880#888#0" expanded="true" />
               </folding>
@@ -78,7 +72,7 @@
       <file leaf-file-name="intermediate.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/intermediate.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
+            <state relative-caret-position="-41">
               <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
               <folding />
             </state>
@@ -506,7 +500,14 @@
       <option name="project" value="LOCAL" />
       <updated>1489940636745</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="FIX RSUB instruction">
+      <created>1489951259129</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1489951259129</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -557,7 +558,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fix two comma separated operands problem." />
     <MESSAGE value="FIX COMPR insrtuction in OPTAB.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIX COMPR insrtuction in OPTAB.txt" />
+    <MESSAGE value="FIX RSUB instruction" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIX RSUB instruction" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -960,14 +962,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/intermediate.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CODE.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
@@ -1012,10 +1006,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/intermediate.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-41">
+          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/CodeLine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="56" column="1" selection-start-line="56" selection-start-column="1" selection-end-line="56" selection-end-column="1" />
+        <state relative-caret-position="339">
+          <caret line="84" column="9" selection-start-line="84" selection-start-column="9" selection-end-line="84" selection-end-column="9" />
           <folding>
             <element signature="e#880#888#0" expanded="true" />
           </folding>

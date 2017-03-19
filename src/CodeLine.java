@@ -64,21 +64,24 @@ public class CodeLine {
             //TODO
         }
 
+
         Operands = new String[2];
-        if (index < tokens.size()) {
-            int pos = tokens.get(index).indexOf(','); //tokens[index].indexOf(',');
-            if (pos > 0) {
-                Operands[0] = tokens.get(index).substring(0,pos); //tokens[index].substring(0, pos);
-                Operands[0] = Operands[0].replace(" " ,"");
-                Operands[1] = tokens.get(index).substring(pos+1); //tokens[index].substring(pos + 1);
-                Operands[1] = Operands[1].replace(" " ,"");
+        if(!tokens.contains("RSUB")) {
+            if (index < tokens.size()) {
+                int pos = tokens.get(index).indexOf(','); //tokens[index].indexOf(',');
+                if (pos > 0) {
+                    Operands[0] = tokens.get(index).substring(0, pos); //tokens[index].substring(0, pos);
+                    Operands[0] = Operands[0].replace(" ", "");
+                    Operands[1] = tokens.get(index).substring(pos + 1); //tokens[index].substring(pos + 1);
+                    Operands[1] = Operands[1].replace(" ", "");
+                } else {
+                    Operands[0] = tokens.get(index); //tokens[index];
+                    Operands[0] = Operands[0].replace(" ", "");
+                    Operands[1] = null;
+                }
             } else {
-                Operands[0] = tokens.get(index); //tokens[index];
-                Operands[0] = Operands[0].replace(" " ,"");
-                Operands[1] = null;
+                Operands[0] = Operands[1] = null;
             }
-        } else {
-            Operands[0] = Operands[1] = null;
         }
 
         return new CodeLine(symbol, mnemonic, extended, Operands);
