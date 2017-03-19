@@ -8,6 +8,7 @@ public class Assembler {
     static List<Instruction> OPTAB = new ArrayList<Instruction>();
     static List<Literals> LITTAB=new ArrayList<Literals>();
     static Map< String , String > SYMTAB = new HashMap<String , String>();
+    static Map< String , Integer > REGTAB = new HashMap<String , Integer>();
     static List <CodeLine> Assembly= new ArrayList<CodeLine>();
     static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
     static  int progLength = 0 ;
@@ -18,6 +19,18 @@ public class Assembler {
         read_ISA();
         Pass1();
 
+    }
+    public static void REG()
+    {
+       REGTAB.put(null, 0);
+        REGTAB.put("A", 0);
+        REGTAB.put("X", 1);
+        REGTAB.put("L", 2);
+        REGTAB.put("B", 3);
+        REGTAB.put("S", 4);
+        REGTAB.put("T", 5);
+        REGTAB.put("F", 6);
+        REGTAB.put("SW", 9);
     }
 
     public static void read_ISA () throws IOException {
@@ -179,5 +192,60 @@ public class Assembler {
             val = 16*val + d;
         }
         return val;
+    }
+
+    public static void pass2() throws IOException {
+
+
+    }
+    public static String Assembling(CodeLine line){
+        REG();
+        String mnemonic;
+        String address,disp;
+        String [] Operands;
+        String ObjectCode=null;
+        int Opcode;
+        String opCodeBits;
+        int format;
+        mnemonic=line.mnemonic;
+        format=search(mnemonic);
+        Operands=line.operands;
+        switch (format){
+            case 1: // format one    [OPCODE      ]
+                ObjectCode=Integer.toString(searchOpcode(mnemonic));
+                break;
+            case 2:   // format two   [OPCODE REGISTER1,REGISTER2]
+                Opcode=searchOpcode(mnemonic);
+                if(Operands.length == 2)
+                {
+                    ObjectCode= Integer.toString(Opcode) + Integer.toString(REGTAB.get(Operands[0])) +
+                            Integer.toString(REGTAB.get(Operands[1]));
+                }
+                break;
+            default:
+                if(line.extended == false) // format four
+                {
+
+                }
+
+
+
+        }
+
+
+        return ObjectCode;
+
+    }
+    public static int searchOpcode(String mnemonic){
+        int i,found=0;
+        for(i=0; i<= OPTAB.size() ;i++){
+            if(OPTAB.get(i).mnemonic.equals(mnemonic))
+                found=1;
+            break;
+        }
+        if(found ==1)
+            return OPTAB.get(i).opcode;
+        else
+            return -1;
     }
 }
