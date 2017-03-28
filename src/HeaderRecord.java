@@ -11,6 +11,6 @@ public class HeaderRecord implements Record{
 
     @Override
     public String toObjectProgram() {
-        return String.format("H%1$-6s%2$06X%3$06X", programName, startAddress, programLength);
+        return String.format("H %1$-6s %2$06X %3$06X", programName, startAddress, programLength);
     }
 }

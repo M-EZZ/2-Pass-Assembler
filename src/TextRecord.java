@@ -6,7 +6,7 @@ public class TextRecord implements Record {
     public int length;
     public List <String> objectCodes;
 
-    public static int MAX_LENGTH = 0x3C;
+    public static int MAX_LENGTH = 0x1E;        //TODO needs to be in alignment with the output length of objectCode from assembleInstruction()
 
     public TextRecord(int startAddress) {
         this.startAddress = startAddress;
@@ -16,7 +16,7 @@ public class TextRecord implements Record {
 
     public boolean add(String objectCode) {
         if (objectCode.length() == 0) {
-            return true;
+            return true;                    // assembler directives case
 
         } else if (length + objectCode.length() / 2 <= MAX_LENGTH) {
             objectCodes.add(objectCode);
@@ -30,10 +30,10 @@ public class TextRecord implements Record {
 
     @Override
     public String toObjectProgram() {
-        String temp = String.format("T%06X%02X", startAddress, length);
+        String temp = String.format("T %06X %02X ", startAddress, length);
 
         for (String s : objectCodes) {
-            temp += s;
+            temp += s + " ";
         }
         return temp;
     }

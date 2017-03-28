@@ -8,7 +8,7 @@ public class EndRecord implements Record {
 
     @Override
     public String toObjectProgram() {
-        return String.format("E%1$06X", firstExecutable);
+        return String.format("E %1$06X", firstExecutable);
     }
 
 }
