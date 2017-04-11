@@ -172,9 +172,10 @@ public class Assembler {
 
                 if(line.extended == true && SYMTAB.containsKey(line.symbol)){ //TODO
                     modificationRecords.add(new ModificationRecord(hex2decimal(line.address)+1 , 5));
-                }                                                                                  //TODO needs something i don't know what
+                }                                                        //TODO needs something i don't know what
 
                 if ( line.mnemonic == "RESW" || line.mnemonic == "RESB" || textRecord.add(objectCode) == false){
+                    //TODO  (If a record is longer than 4096 bytes, only the first 4096 bytes are copied.) SP 02
                     objectProgram.write(textRecord.toObjectProgram() + '\n');
                     textRecord = new TextRecord(hex2decimal(line.address));
                     textRecord.add(objectCode);
@@ -243,9 +244,10 @@ public class Assembler {
                         }
                         else{
                             int targetAddress = hex2decimal(SYMTAB.get(operand));
-
+                            int inc = search(line.mnemonic);   //increment pc to the next instruction
+                            if(line.extended == true){inc++;}
                             if(line.extended == false){
-                                disp = targetAddress - hex2decimal(line.address) ;
+                                disp = targetAddress - hex2decimal(line.address)-inc ;
                                 if( disp >= -2048 && disp <= 2047){
                                     opcode |= p ;
                                 }
