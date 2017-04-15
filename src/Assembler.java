@@ -234,7 +234,7 @@ public class Assembler {
                     //TODO register table is hard coded
                     if(line.operands.length==2)
                     {
-                        objectCode += Integer.toHexString(registerTable.get(line.operands[0]))+"0";
+                        objectCode += Integer.toHexString(registerTable.get(line.operands[0]))+registerTable.get(line.operands[1]);
                     }
                     else
                     {
@@ -259,6 +259,7 @@ public class Assembler {
                     if( operand == null){           //RSUB
                         opcode = opcode | n | i ;
                         opcode = opcode << 12 ;
+                        objectCode = Integer.toHexString(opcode);
                     }
                     else {
                         switch (operand.charAt(0)){
