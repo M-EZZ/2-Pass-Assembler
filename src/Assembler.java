@@ -234,13 +234,21 @@ public class Assembler {
                     //TODO register table is hard coded
                     if(line.operands.length==2)
                     {
-                        objectCode += Integer.toHexString(registerTable.get(line.operands[0]))+registerTable.get(line.operands[1]);
+
+                        if(line.operands[1] !=null)
+                        {
+                            objectCode += Integer.toHexString(registerTable.get(line.operands[0]));
+                            objectCode += Integer.toHexString(registerTable.get(line.operands[1]));
+                        }
+                        else{
+                            objectCode += Integer.toHexString(registerTable.get(line.operands[0]))+"0";
+                        }
                     }
-                    else
+                   /* else
                     {
                         objectCode += Integer.toHexString(registerTable.get(line.operands[0]));
                         objectCode += Integer.toHexString(registerTable.get(line.operands[1]));
-                    }
+                    }*/
 
                     break;
 
