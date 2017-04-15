@@ -51,7 +51,8 @@ public class Assembler {
         literal_table.write("Literal" + " \t"+ "Length" +" \t"+"Value" +" \t"+ "Address"+"\n" );
 
         while((str = asm.readLine()) != null){
-            if (isComment(str)) { lineNum++; continue; }
+            if (isComment(str)) { lineNum++;
+                continue; }
             CodeLine line = CodeLine.parse1(str);
             line.address = Integer.toHexString(LOCCTR).toUpperCase();
 
@@ -97,7 +98,7 @@ public class Assembler {
                         case 'X':
                             length = (s.length()-3)/2;
                             LOCCTR += (s.length() - 3) / 2; // X'05' -> 05 -> 2 half bytes
-                             literal=new Literals(s,length,s.substring(2,s.length()-1),Integer.toHexString(LOCCTR).toUpperCase(),0);
+                            literal=new Literals(s,length,s.substring(2,s.length()-1),Integer.toHexString(LOCCTR).toUpperCase(),0);
                             LITTAB.add(literal);
                             literal_table.write( literal.name+ "\t\t"+ literal.length +"\t\t"+literal.value +"\t\t"+ literal.address+"\n" );
                             break;
@@ -115,7 +116,14 @@ public class Assembler {
                     break;
 
                 default:
-                    if(search(line.mnemonic)!= -1){
+                    String temp=null;
+                    if(search(line.mnemonic)!= -1  || line.mnemonic.contains("+")){
+                        if(line.mnemonic.contains("+"))
+                        {  temp=line.mnemonic.substring(1);}
+                        if(search(temp)!= -1)
+                        {
+                            LOCCTR += 4;
+                        }
                         if(first_executable < 0){
                             first_executable = LOCCTR;
                         }
@@ -130,6 +138,7 @@ public class Assembler {
                                 LOCCTR += 3 + ((line.extended)? 1:0);
                                 break;
                         }
+
                     }
                     else{
                         System.out.println("INVALID OPERATION in line "+ lineNum + " : " +line.toString());
@@ -166,18 +175,27 @@ public class Assembler {
             if(line.mnemonic.equals("START")){
                 objectProgram.write(new HeaderRecord(line.symbol , startAddress , progLength ).toObjectProgram() + "\n" );
             }
-            else if (line.mnemonic.equals("END")){break ;}
+            else if (line.mnemonic.equals("END")){
+                // objectProgram.write(new EndRecord(first_executable).toObjectProgram() + '\n');
+                break ;}  // TODO END RECORD
             else {
                 String objectCode = assembleInstruction (line);      //TODO (in progress)
 
-                if(line.extended == true && SYMTAB.containsKey(line.symbol)){ //TODO
-                    modificationRecords.add(new ModificationRecord(hex2decimal(line.address)+1 , 5));
-                }                                                        //TODO needs something i don't know what
+                if(line.extended == true  && !line.operands[0].contains("#")){ //TODO
+                    modificationRecords.add(new ModificationRecord(hex2decimal(line.address)+1 , 5)); //TODO
+                }                                                                                  //TODO needs something i don't know what
 
-                if ( line.mnemonic == "RESW" || line.mnemonic == "RESB" || textRecord.add(objectCode) == false){
-                    //TODO  (If a record is longer than 4096 bytes, only the first 4096 bytes are copied.) SP 02
-                    objectProgram.write(textRecord.toObjectProgram() + '\n');
-                    textRecord = new TextRecord(hex2decimal(line.address));
+                if ( line.mnemonic.equals("RESW") || line.mnemonic.equals("RESB") || textRecord.add(objectCode) == false){
+                    if(textRecord.objectCodes.size() !=0)
+                    {objectProgram.write(textRecord.toObjectProgram() + '\n');}
+                    if(line.mnemonic.equals("RESB"))
+                    {textRecord=new TextRecord(hex2decimal(line.address)+ Integer.parseInt(line.operands[0]));}
+                    else if(line.mnemonic.equals("RESW")){
+                        textRecord=new TextRecord(hex2decimal(line.address)+ 3*Integer.parseInt(line.operands[0]));
+                    }
+                    else
+                    {textRecord = new TextRecord(hex2decimal(line.address));}
+
                     textRecord.add(objectCode);
                 }
             }
@@ -186,11 +204,10 @@ public class Assembler {
         for(ModificationRecord record : modificationRecords){
             objectProgram.write(record.toObjectProgram() + "\n");
         }
-        objectProgram.write(new EndRecord(first_executable).toObjectProgram() + '\n');
+
         asm.close();
         objectProgram.close();
     }
-
     public static String assembleInstruction (CodeLine line){
         String objectCode = "";
         int format = search(line.mnemonic);
@@ -202,9 +219,19 @@ public class Assembler {
                 case 2:
                     objectCode = searchOPCODE(line.mnemonic);
                     //TODO register table is hard coded
-                    objectCode += Integer.toHexString(registerTable.get(line.operands[0]));
-                    objectCode += Integer.toHexString(registerTable.get(line.operands[1]));
+                    if(line.operands.length==2)
+                    {
+                        objectCode += Integer.toHexString(registerTable.get(line.operands[0]))+"0";
+                    }
+                    else
+                    {
+                        objectCode += Integer.toHexString(registerTable.get(line.operands[0]));
+                        objectCode += Integer.toHexString(registerTable.get(line.operands[1]));
+                    }
+
                     break;
+
+
                 case 7:
                     int n = 1 << 5;
                     int i = 1 << 4;
@@ -232,7 +259,7 @@ public class Assembler {
                                 break;
                             default:        //simple and direct addressing modes
                                 opcode = opcode | n | i ;
-                                if(line.operands[1] != null){
+                                if(line.operands[1] != null){  //TODO indexed mode
                                     opcode |= x;
                                 }
                         }
@@ -244,14 +271,14 @@ public class Assembler {
                         }
                         else{
                             int targetAddress = hex2decimal(SYMTAB.get(operand));
-                            int inc = search(line.mnemonic);   //increment pc to the next instruction
+                            int inc = 3 ;//increment pc to the next instruction
                             if(line.extended == true){inc++;}
                             if(line.extended == false){
                                 disp = targetAddress - hex2decimal(line.address)-inc ;
                                 if( disp >= -2048 && disp <= 2047){
                                     opcode |= p ;
                                 }
-                                else {
+                                else { //TODO Base directive
                                     opcode |= b;
                                     disp = targetAddress - baseAddres ;
                                 }
@@ -261,11 +288,19 @@ public class Assembler {
                         if(line.extended == true){
                             opcode |= e;
                             opcode = opcode << 20;
-                            opcode |= disp;
+                            if(SYMTAB.get(line.operands[0])!= null)
+                                opcode |= hex2decimal(SYMTAB.get(line.operands[0])); //TODO
+                            else
+                                opcode|= disp;
                             objectCode = String.format("%08X" , opcode);
                         }
                         else{
                             opcode = opcode << 12;
+                            if(disp <0 )
+                            {
+                                disp=~disp & 0xff;
+                                disp=disp+1;
+                            }
                             opcode |= disp;
                             objectCode = String.format("%06X" , opcode);
                         }
@@ -274,26 +309,40 @@ public class Assembler {
                     break;
             }
         }
-        else if (line.mnemonic == "BYTE"){
+        else if (line.mnemonic.equals("BYTE") ){
             char type  = line.operands[0].charAt(0);
             switch (type){
+
                 case 'C' :
-                    for(char c : line.operands[0].toCharArray()){
-                        objectCode += Integer.toHexString(c).toUpperCase();
+
+                    String temp=line.operands[0];
+                    temp=temp.replace("C","");
+                    temp=temp.replace("'","");
+                    for(char c : temp.toCharArray()){
+                        int asci = (int)c;
+                        String str= Integer.toHexString(asci);
+                        objectCode+=str;
                     }
                     break;
                 case 'X' :
-                    objectCode = line.operands[0];
+                    temp=line.operands[0];
+                    temp=temp.replace("X","");
+                    temp=temp.replace("'","");
+                    objectCode = temp;
                     break;
             }
         }
-        else if (line.mnemonic == "WORD"){
+        else if (line.mnemonic.equals("WORD") ){
             objectCode = line.operands[0];
         }
-        else if (line.mnemonic == "BASE"){
-            baseAddres = hex2decimal(SYMTAB.get(line.operands[0]));
+        else if (line.mnemonic.equals("BASE")){
+            if(line.operands[0].contains("#"))
+            {baseAddres = hex2decimal(SYMTAB.get(line.operands[0].substring(1)));}
+            else
+                baseAddres=hex2decimal(SYMTAB.get(line.operands[0]));
+            //TODO
         }
-        else if (line.mnemonic == "NOBASE"){
+        else if (line.mnemonic.equals("NOBASE") ){
             baseAddres = 0;
         }
         return objectCode;

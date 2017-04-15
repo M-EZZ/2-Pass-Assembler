@@ -67,7 +67,7 @@ public class CodeLine {
         try{
         if (mnemonic.charAt(0) == '+') {
             extended = true;
-            mnemonic = mnemonic.substring(1);
+            //mnemonic = mnemonic.substring(1);
         }}catch (StringIndexOutOfBoundsException e){
             //TODO
         }
@@ -98,18 +98,19 @@ public class CodeLine {
     public static CodeLine parse2 (String statement) {
         //String[] tokens = statement.trim().split("  ");
         ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split("\t")));
-        tokens.removeAll(Arrays.asList("" ,null));
+        tokens.removeAll(Arrays.asList(" " ,null));
 
         String symbol, mnemonic = null;
         String[] Operands;
         boolean extended = false;
         int index = 0;
         String address = "";
-        if(tokens.contains("RSUB")) {
+        if(tokens.contains("RSUB ")) {
             if (tokens.size() == 2){
                 address = tokens.get(0);
                 address.replace(" ","");
                 mnemonic = tokens.get(1);
+                mnemonic.replace(" ","");
             }
             else if (tokens.size()==3)
             {
