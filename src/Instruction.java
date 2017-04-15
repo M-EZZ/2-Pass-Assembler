@@ -1,7 +1,7 @@
 public class Instruction {
 
-    public String mnemonic ;
-    public int format , opcode;
+    String mnemonic ;
+    int format , opcode;
 
     // address symbol mnemonic operand      Example : 203F loop1 ADD foo
 

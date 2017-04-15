@@ -2,19 +2,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextRecord implements Record {
-    public int startAddress;
+    private int startAddress;
     public int length;
-    public List <String> objectCodes;
+    List <String> objectCodes;
 
-    public static int MAX_LENGTH = 0x1E;        //TODO needs to be in alignment with the output length of objectCode from assembleInstruction()
+    private static int MAX_LENGTH = 0x1E;        //TODO needs to be in alignment with the output length of objectCode from assembleInstruction()
 
-    public TextRecord(int startAddress) {
+    TextRecord(int startAddress) {
         this.startAddress = startAddress;
         this.length = 0;
         this.objectCodes = new ArrayList<>();
     }
 
-    public boolean add(String objectCode) {
+    boolean add(String objectCode) {
         if (objectCode.length() == 0) {
             return true;                    // assembler directives case
 

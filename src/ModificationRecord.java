@@ -1,9 +1,9 @@
 public class ModificationRecord implements Record {
 
-    public int location;
+    private int location;
     public  int length;
 
-    public ModificationRecord(int modifiedLocation, int modifiedLength) {
+    ModificationRecord(int modifiedLocation, int modifiedLength) {
         this.location = modifiedLocation;
         this.length = modifiedLength;
     }

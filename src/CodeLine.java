@@ -3,11 +3,11 @@ import java.util.Arrays;
 
 public class CodeLine {
 
-    public String symbol;
-    public String mnemonic;
-    public String[] operands;
-    public boolean extended;
-    public String address ;
+    String symbol;
+    String mnemonic;
+    String[] operands;
+    boolean extended;
+    String address ;
 
 
     private CodeLine(String symbol, String mnemonic, boolean extended, String[] operands) {
@@ -30,7 +30,7 @@ public class CodeLine {
         return (this.address + " \t" + (this.symbol != null? this.symbol:"") + " \t" + this.mnemonic + " \t" + (this.operands[0] != null? this.operands[0]:"") + (this.operands[1] != null? (','+this.operands[1]) :"")) ;
     }
 
-    public static CodeLine parse1(String statement) {
+    static CodeLine parse1(String statement) {
         //String[] tokens = statement.trim().split("  ");
         ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split(" ")));
         tokens.removeAll(Arrays.asList("" ,null));
@@ -63,6 +63,7 @@ public class CodeLine {
         {
              mnemonic = tokens.get(index++); //tokens[index++];
         }
+        assert mnemonic != null;
         mnemonic = mnemonic.replace(" ", "");
         try{
         if (mnemonic.charAt(0) == '+') {
@@ -95,7 +96,7 @@ public class CodeLine {
         return new CodeLine(symbol, mnemonic, extended, Operands);
     }
 
-    public static CodeLine parse2 (String statement) {
+    static CodeLine parse2(String statement) {
         //String[] tokens = statement.trim().split("  ");
         ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split("\t")));
         tokens.removeAll(Arrays.asList(" " ,null));

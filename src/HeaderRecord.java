@@ -1,9 +1,9 @@
 public class HeaderRecord implements Record{
-    public String programName;
-    public int startAddress;
-    public int programLength;
+    private String programName;
+    private int startAddress;
+    private int programLength;
 
-    public HeaderRecord(String name, int startAddress, int length) {
+    HeaderRecord(String name, int startAddress, int length) {
         this.programName = name;
         this.startAddress = startAddress;
         this.programLength = length;

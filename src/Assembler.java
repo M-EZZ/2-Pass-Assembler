@@ -4,16 +4,16 @@ import java.util.*;
 public class Assembler {
 
 
-    static List<Instruction> OPTAB = new ArrayList<Instruction>();
-    static List<Literals> LITTAB=new ArrayList<Literals>();
-    static Map< String , String > SYMTAB = new HashMap<String , String>();
-    static List <CodeLine> Assembly= new ArrayList<CodeLine>();
-    static Map<String, Integer> registerTable = new HashMap<>();
-    static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
-    static  int progLength = 0 ;
-    static int baseAddres =0 ;
+    private static List<Instruction> OPTAB = new ArrayList<>();
+    private static List<Literals> LITTAB= new ArrayList<>();
+    private static Map< String , String > SYMTAB = new HashMap<>();
+    static List <CodeLine> Assembly= new ArrayList<>();
+    private static Map<String, Integer> registerTable = new HashMap<>();
+    private static int LOCCTR = 0 , startAddress = 0 , first_executable = -1 ; // initialized ot -1 to be updated only once
+    private static  int progLength = 0 ;
+    private static int baseAddres =0 ;
     static String [] assembler_directives = {"START" , "END" , "BASE" ,"NOBASE" ,"BYTE" , "WORD" , "RESB" , "RESW" };
-    static  String fileName = "CODE.txt";
+    private static  String fileName = "CODE.txt";
 
     public static void main(String []args) throws IOException {
         read_ISA();
@@ -21,7 +21,7 @@ public class Assembler {
         pass2();
     }
 
-    public static void read_ISA () throws IOException {
+    private static void read_ISA() throws IOException {
         BufferedReader optab_buffer = new BufferedReader(new FileReader("OPTAB.txt"));
         String str;
         String []parts;
@@ -37,7 +37,7 @@ public class Assembler {
         optab_buffer.close();
     }
 
-    public static void Pass1 () throws IOException  {
+    private static void Pass1() throws IOException  {
         String str ; int lineNum = 1;
         String [] lmo ; //label mnemonic operands
 
@@ -158,7 +158,7 @@ public class Assembler {
         literal_table.close();
     }
 
-    public static void pass2 () throws IOException {
+    private static void pass2() throws IOException {
 
         initRegisterTable();
         String str;
@@ -166,38 +166,51 @@ public class Assembler {
         ArrayList<ModificationRecord> modificationRecords = new ArrayList<>();
         BufferedReader asm = new BufferedReader(new FileReader("intermediate.txt"));
         BufferedWriter objectProgram = new BufferedWriter(new FileWriter("ObjectCode.txt"));
-        while((str = asm.readLine()) != null) {
+        label:
+        while ((str = asm.readLine()) != null) {
 
-            if (isComment(str)) { continue; }
+            if (isComment(str)) {
+                continue;
+            }
 
             CodeLine line = CodeLine.parse2(str);
 
-            if(line.mnemonic.equals("START")){
-                objectProgram.write(new HeaderRecord(line.symbol , startAddress , progLength ).toObjectProgram() + "\n" );
-            }
-            else if (line.mnemonic.equals("END")){
-                // objectProgram.write(new EndRecord(first_executable).toObjectProgram() + '\n');
-                break ;}  // TODO END RECORD
-            else {
-                String objectCode = assembleInstruction (line);      //TODO (in progress)
+            switch (line.mnemonic) {
+                case "START":
+                    objectProgram.write(new HeaderRecord(line.symbol, startAddress, progLength).toObjectProgram() + "\n");
+                    break;
+                case "END":
+                    // objectProgram.write(new EndRecord(first_executable).toObjectProgram() + '\n');
+                    break label;
+                default:
+                    String objectCode = assembleInstruction(line);      //TODO (in progress)
 
-                if(line.extended == true  && !line.operands[0].contains("#")){ //TODO
-                    modificationRecords.add(new ModificationRecord(hex2decimal(line.address)+1 , 5)); //TODO
-                }                                                                                  //TODO needs something i don't know what
 
-                if ( line.mnemonic.equals("RESW") || line.mnemonic.equals("RESB") || textRecord.add(objectCode) == false){
-                    if(textRecord.objectCodes.size() !=0)
-                    {objectProgram.write(textRecord.toObjectProgram() + '\n');}
-                    if(line.mnemonic.equals("RESB"))
-                    {textRecord=new TextRecord(hex2decimal(line.address)+ Integer.parseInt(line.operands[0]));}
-                    else if(line.mnemonic.equals("RESW")){
-                        textRecord=new TextRecord(hex2decimal(line.address)+ 3*Integer.parseInt(line.operands[0]));
+                    if (line.extended && !line.operands[0].contains("#")) { //TODO
+                        modificationRecords.add(new ModificationRecord(hex2decimal(line.address) + 1, 5)); //TODO
+
+                    }                                                                                  //TODO needs something i don't know what
+
+
+                    if (line.mnemonic.equals("RESW") || line.mnemonic.equals("RESB") || !textRecord.add(objectCode)) {
+                        if (textRecord.objectCodes.size() != 0) {
+                            objectProgram.write(textRecord.toObjectProgram() + '\n');
+                        }
+                        switch (line.mnemonic) {
+                            case "RESB":
+                                textRecord = new TextRecord(hex2decimal(line.address) + Integer.parseInt(line.operands[0]));
+                                break;
+                            case "RESW":
+                                textRecord = new TextRecord(hex2decimal(line.address) + 3 * Integer.parseInt(line.operands[0]));
+                                break;
+                            default:
+                                textRecord = new TextRecord(hex2decimal(line.address));
+                                break;
+                        }
+
+                        textRecord.add(objectCode);
                     }
-                    else
-                    {textRecord = new TextRecord(hex2decimal(line.address));}
-
-                    textRecord.add(objectCode);
-                }
+                    break;
             }
         }
         objectProgram.write(textRecord.toObjectProgram() + '\n');
@@ -208,7 +221,7 @@ public class Assembler {
         asm.close();
         objectProgram.close();
     }
-    public static String assembleInstruction (CodeLine line){
+    private static String assembleInstruction(CodeLine line){
         String objectCode = "";
         int format = search(line.mnemonic);
         if ( format != -1){
@@ -272,8 +285,8 @@ public class Assembler {
                         else{
                             int targetAddress = hex2decimal(SYMTAB.get(operand));
                             int inc = 3 ;//increment pc to the next instruction
-                            if(line.extended == true){inc++;}
-                            if(line.extended == false){
+                            if(line.extended){inc++;}
+                            if(!line.extended){
                                 disp = targetAddress - hex2decimal(line.address)-inc ;
                                 if( disp >= -2048 && disp <= 2047){
                                     opcode |= p ;
@@ -285,7 +298,7 @@ public class Assembler {
                             }
                         }
 
-                        if(line.extended == true){
+                        if(line.extended){
                             opcode |= e;
                             opcode = opcode << 20;
                             if(SYMTAB.get(line.operands[0])!= null)
@@ -348,11 +361,11 @@ public class Assembler {
         return objectCode;
     }
 
-    public static boolean isComment (String str) {
+    private static boolean isComment(String str) {
         return str.startsWith(".");
     }
 
-    public static int search (String mnemonic) {
+    private static int search(String mnemonic) {
         int found=0;
         int i;
         for ( i=0 ; i< OPTAB.size() ; i++)
@@ -369,7 +382,7 @@ public class Assembler {
             return -1;
     }
 
-    public static String searchOPCODE (String mnemonic) {
+    private static String searchOPCODE(String mnemonic) {
         int found=0;
         int i;
         for ( i=0 ; i< OPTAB.size() ; i++)
@@ -385,7 +398,7 @@ public class Assembler {
             return null;
     }
 
-    public static void initRegisterTable (){
+    private static void initRegisterTable(){
         registerTable.put("A", 0);
         registerTable.put("X", 1);
         registerTable.put("L", 2);
@@ -396,7 +409,7 @@ public class Assembler {
         registerTable.put("SW",7);
     }
 
-    public static int hex2decimal(String S) {
+    private static int hex2decimal(String S) {
         String s = S.trim();
         String digits = "0123456789ABCDEF";
         s = s.toUpperCase();

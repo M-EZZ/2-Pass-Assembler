@@ -1,6 +1,6 @@
 public class EndRecord implements Record {
 
-    public int firstExecutable;
+    private int firstExecutable;
 
     public EndRecord(int firstExecutable) {
         this.firstExecutable = firstExecutable;
