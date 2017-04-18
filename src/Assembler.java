@@ -217,6 +217,7 @@ public class Assembler {
         for(ModificationRecord record : modificationRecords){
             objectProgram.write(record.toObjectProgram() + "\n");
         }
+        objectProgram.write(new EndRecord(first_executable).toObjectProgram() + '\n');
 
         asm.close();
         objectProgram.close();
@@ -320,8 +321,10 @@ public class Assembler {
                             opcode = opcode << 12;
                             if(disp <0 )
                             {
-                                disp=~disp & 0xff;
-                                disp=disp+1;
+
+                                disp=disp & 0xfff;
+
+                                //disp=disp+1;
                             }
                             opcode |= disp;
                             objectCode = String.format("%06X" , opcode);
