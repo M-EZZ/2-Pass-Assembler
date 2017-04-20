@@ -213,7 +213,9 @@ public class Assembler {
                     break;
             }
         }
+        if(textRecord.length != 0)
         objectProgram.write(textRecord.toObjectProgram() + '\n');
+
         for(ModificationRecord record : modificationRecords){
             objectProgram.write(record.toObjectProgram() + "\n");
         }
@@ -301,9 +303,13 @@ public class Assembler {
                                 if( disp >= -2048 && disp <= 2047){
                                     opcode |= p ;
                                 }
-                                else { //TODO Base directive
+                                else if(disp >= 0 && disp <= 4095){
                                     opcode |= b;
                                     disp = targetAddress - baseAddres ;
+                                }
+                                else { //TODO Base directive
+                                   System.out.print("ERROR");
+                                    System.exit(0);
                                 }
                             }
                         }

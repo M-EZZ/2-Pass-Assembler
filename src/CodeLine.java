@@ -35,27 +35,31 @@ public class CodeLine {
         ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(statement.split(" ")));
         tokens.removeAll(Arrays.asList("" ,null));
 
-        String symbol, mnemonic = null;
-        String[] Operands;
+        String symbol= null;
+        String mnemonic = null;
+        String[] Operands=null;
         boolean extended = false;
         int index = 0;
+        int Rflag=0;
 
        if(tokens.contains("RSUB"))
        {
+           Rflag=1;
            if(tokens.size()==1)
                mnemonic=tokens.get(0);
            else if(tokens.size()==2)
            {
-               mnemonic=tokens.get(1);
                symbol=tokens.get(0);
+               mnemonic=tokens.get(1);
+
            }
 
        }
 
-        if (tokens.size() == 3) {
+        if (tokens.size() == 3 && Rflag ==0) {
             symbol = tokens.get(index++); //tokens[index++];
             symbol = symbol.replace(" " ,"");
-        } else {
+        } else if(Rflag==0) {
             symbol = null;
         }
         
@@ -92,6 +96,7 @@ public class CodeLine {
                 Operands[0] = Operands[1] = null;
             }
         }
+        Rflag=0;
 
         return new CodeLine(symbol, mnemonic, extended, Operands);
     }
