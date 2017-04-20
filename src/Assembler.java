@@ -282,6 +282,8 @@ public class Assembler {
                                 opcode |= n;
                                 operand = operand.substring(1);
                                 break;
+                            case '*':
+                                operand = Integer.toString(LOCCTR);
                             default:        //simple and direct addressing modes
                                 opcode = opcode | n | i ;
                                 if(line.operands[1] != null){  //TODO indexed mode
