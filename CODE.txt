@@ -1,6 +1,7 @@
 PALIND   START   0
 FIRST    LDB     #1
 CLOOP    +JSUB   RDREC
+         BASE    LENGTH
          LDA     LENGTH
          COMP    #0
          JEQ     CLOOP
@@ -15,6 +16,7 @@ RDREC    CLEAR   X
          CLEAR   A
          CLEAR   S
          +LDT    #4096
+         LDA    *
 RLOOP    TD      INPUT
          JEQ     RLOOP
          RD      INPUT

@@ -174,6 +174,30 @@ public class Assembler {
             }
 
             CodeLine line = CodeLine.parse2(str);
+            if(!line.mnemonic.equals("RSUB"))
+            {
+                if(line.operands[0].equals("*")){
+                int inc=search(line.mnemonic);
+                String tempOperand=null;
+                switch (inc){
+                    case 1:
+                        tempOperand= Integer.toHexString(hex2decimal(line.address) + inc);
+                        break ;
+                    case 2:
+                        tempOperand= Integer.toHexString(hex2decimal(line.address) + inc);
+                        break ;
+                    case 7:
+                        if (line.extended){
+                            tempOperand= Integer.toHexString(hex2decimal(line.address) + 4);
+                        }else{
+                            tempOperand= Integer.toHexString(hex2decimal(line.address) + 3);
+                        }
+                        break ;
+                }
+                SYMTAB.put("*",tempOperand);
+             //   System.out.println(tempOperand);
+
+            }}
 
             switch (line.mnemonic) {
                 case "START":
@@ -272,6 +296,8 @@ public class Assembler {
                         opcode = opcode << 12 ;
                         objectCode = Integer.toHexString(opcode);
                     }
+
+
                     else {
                         switch (operand.charAt(0)){
                             case '#':       //immediate addressing mode
@@ -296,6 +322,11 @@ public class Assembler {
                         }
                         else{
                             int targetAddress = hex2decimal(SYMTAB.get(operand));
+                            if(operand.contains("*"))
+                            {
+                               // System.out.println(Integer.toHexString(targetAddress));
+                                SYMTAB.remove("*");
+                            }
                             int inc = 3 ;//increment pc to the next instruction
                             if(line.extended){inc++;}
                             if(!line.extended){
@@ -371,6 +402,7 @@ public class Assembler {
             {baseAddres = hex2decimal(SYMTAB.get(line.operands[0].substring(1)));}
             else
                 baseAddres=hex2decimal(SYMTAB.get(line.operands[0]));
+            System.out.println(Integer.toHexString(baseAddres));
             //TODO
         }
         else if (line.mnemonic.equals("NOBASE") ){
