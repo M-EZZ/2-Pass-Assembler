@@ -2,8 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Assembler {
-
-
     private static List<Instruction> OPTAB = new ArrayList<>();
     private static List<Literals> LITTAB= new ArrayList<>();
     private static Map< String , String > SYMTAB = new HashMap<>();
@@ -142,7 +140,7 @@ public class Assembler {
                     }
                     else{
                         System.out.println("INVALID OPERATION in line "+ lineNum + " : " +line.toString());
-                        break;
+                        System.exit(0);
                     }
             }
             // System.out.println(line);          //Uncomment to show the address and Source CodeLine
@@ -404,7 +402,7 @@ public class Assembler {
             {baseAddres = hex2decimal(SYMTAB.get(line.operands[0].substring(1)));}
             else
                 baseAddres=hex2decimal(SYMTAB.get(line.operands[0]));
-            System.out.println(Integer.toHexString(baseAddres));
+           // System.out.println(Integer.toHexString(baseAddres));
             //TODO
         }
         else if (line.mnemonic.equals("NOBASE") ){
